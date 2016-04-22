@@ -1,10 +1,10 @@
-var uuid = require("node-uuid");
+var uuid = require('node-uuid');
 var db = require('./db');
 
 //weeks * days * hours * minutes * seconds
 var defaultTTL = 2 * 7 * 24 * 60 * 60;
 
-var modelName = "AccessToken";
+var modelName = 'AccessToken';
 
 //Creating database schema
 db.createSchema(modelName, {
@@ -32,6 +32,7 @@ function AccessToken (userId) {
   };
 }
 
+//Constructor for return
 function AccessTokenReturn (tokenInstance) {
   if (!tokenInstance) {
     return null;
@@ -46,9 +47,7 @@ function AccessTokenReturn (tokenInstance) {
 
 module.exports = {
   isValid: function (token, cb) {
-    db.connect();
     accessTokenDb.findOne({token: token}, function (error, result) {
-      db.disconnect();
 
       if (error) {
       	return cb(error, false);
@@ -70,6 +69,8 @@ module.exports = {
     });
   },
   remove: function (tokenString, cb) {
+    var condition = {token: tokenString};
+    // console.log(condition);
     accessTokenDb.remove({token: tokenString}, cb);
   }
 }

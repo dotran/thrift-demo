@@ -7,6 +7,7 @@ module.exports = {
       App.get("/tasks", auth.requiresAuth);
       App.get("/tasks", function (req, res, next) {
 
+        console.log(req.token);
         //NOTE:For testing purpose only
         res.json([
           {

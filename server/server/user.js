@@ -2,7 +2,7 @@ var modelName = 'User';
 var CryptoJS = require("crypto-js");
 var db = require('./db');
 var accessToken = require('./accesstoken');
-
+var errorResponse = require('./utils/error');
 var baseUrl = "users";
 
 //Creating database schema
@@ -47,13 +47,9 @@ User.prototype.createToken = function (cb) {
   accessToken.create(this._id, cb);
 }
 
-function errorResponse(status, message, res, shouldDisconnect) {
-
-  if (shouldDisconnect)
-    db.disconnect();
-
-  res.status(status).end(message);
-}
+// function errorResponse(status, message, res, shouldDisconnect) {
+//   res.status(status).end(message);
+// }
 
 //Login function
 function login (req, res, next) {
@@ -65,8 +61,6 @@ function login (req, res, next) {
   if (!userObj.isValidInstance()) {
     return errorResponse(401, "Invalid instance for login", res);
   }
-
-  db.connect();
 
   userDb.findOne({username: userObj.username},  function (error, user) {
     if (error) {
@@ -93,7 +87,6 @@ function login (req, res, next) {
       }
 
       res.json(at);
-      db.disconnect();
     });
   });
 
@@ -114,8 +107,6 @@ function signup (req, res, next) {
   }
 
   var instance = new userDb(userObj);
-
-  db.connect();
 
   userDb.count({username: userObj.username}, function(error, count) {
     if (error) {
@@ -139,8 +130,6 @@ function signup (req, res, next) {
         }
 
         res.json(at);
-        db.disconnect();
-        // next();
       });
     });
   });
@@ -152,9 +141,9 @@ var auth = require('./authentication');
 function logout (req, res, next) {
   var tokenString = auth.getAccessToken(req);
 
-  db.connect();
-  accessToken.remove(tokenString, function (error, result) {
+  accessToken.remove(tokenString, function (error) {
     if (error) {
+      console.error(error);
       return errorResponse(400, "Unknown Error", res, true);
     }
 
@@ -164,15 +153,13 @@ function logout (req, res, next) {
 
 module.exports = {
   addRoutes: function (App) {
-      console.log("USER IS ADDING ITS OWN ROUTES");
+      // console.log("USER IS ADDING ITS OWN ROUTES");
 
       //Login route
       App.post("/"+baseUrl+"/login", login);
 
       //Signup route
       App.post("/"+baseUrl+"/signup", signup);
-
-
 
       //Logout route
       App.post("/"+baseUrl+"/logout", auth.requiresAuth);
