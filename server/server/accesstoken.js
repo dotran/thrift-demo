@@ -59,7 +59,14 @@ module.exports = {
 
       var expiration = result.createdOn.valueOf() + (result.ttl * 1000);
 
-      return cb(null, (new Date().valueOf() <= expiration));
+      if (new Date().valueOf() > expiration) {
+        return cb(null, false);
+      }
+      else {
+        return cb(null, result);
+      }
+
+
     });
   },
   create: function (userId, cb) {

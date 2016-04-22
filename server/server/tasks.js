@@ -8,6 +8,7 @@ module.exports = {
       App.get("/tasks", function (req, res, next) {
 
         console.log(req.token);
+        console.log(req.userId);
         //NOTE:For testing purpose only
         res.json([
           {

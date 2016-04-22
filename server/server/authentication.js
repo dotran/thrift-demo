@@ -33,6 +33,7 @@ module.exports = {
 
       if (isValid) {
         req.token = tokenString;
+        req.userId = isValid.userId;
         next();
       }
       else {
