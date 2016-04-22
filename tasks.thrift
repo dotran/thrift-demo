@@ -22,6 +22,6 @@ service Tasks {
   Task add(1:string userId, 2:string name),
 
   //Update
-  Task update(1:string id, 2:string name, 3:bool done)
+  Task update(1:string id, 2:string name, 3:bool done, 4:string userId)
 
 }
