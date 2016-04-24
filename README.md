@@ -4,7 +4,7 @@ In this repository you will find a simple example on how to make processes inter
 
 
 ##Contents
-This is a very simple Task application.
+This is a very simple Task application.  
 ![Simple architecture](Architecture.png)  
 **Clients** connect directly with the **Web Server** which deals with authentication, data validation, etc.
 
