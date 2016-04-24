@@ -5,12 +5,12 @@ In this repository you will find a simple example on how to make processes inter
 
 ##Contents
 This is a very simple Task application.
-![Simple architecture](Architecture.png)
+![Simple architecture](Architecture.png)  
 **Clients** connect directly with the **Web Server** which deals with authentication, data validation, etc.
 
 The **Web Server** connects with the **Tasks** service using Thrift to fetch and submit data
 
-**Note:** Please refer to [Routes](ROUTES.MD) for the basic Routing of the Web Server
+**Note:** Please refer to [Routes](ROUTES.md) for the basic Routing of the Web Server
 
 ##Prerequisites
 To successfully run this demo please install the following dependencies:
@@ -151,7 +151,7 @@ From the base folder in the terminal application:
 
 ####[LICENSE](LICENSE.MD)
 
-**This demo was built and tested using the following environment:**
+**This demo was built and tested using the following environment:**  
 MacBook Pro (Retina, 13-inch, Late 2013)  
 **Processor:** 2.4 GHz Intel Core i5  
 **Memory:** 8 GB 1600 MHz DDR3  

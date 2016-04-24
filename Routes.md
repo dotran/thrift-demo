@@ -27,7 +27,7 @@ Create user account based on credentials
 ```
 {
 	"token": "", //Access token string
-	"userId": 0, //userId
+	"userId": "", //userId
 	"ttl": 0 //access token time to live (seconds)
 	"createdOn": "" //date in ISO format
 }
@@ -50,7 +50,7 @@ Login users based on credentials
 ```
 {
 	"token": "", //Access token string
-	"userId": 0, //userId
+	"userId": "", //userId
 	"ttl": 0 //access token time to live (seconds)
 	"createdOn": "" //date in ISO format
 }
@@ -69,8 +69,8 @@ Below is described the basic schema for a **Task**
 
 ```
 {  
-	"id": 0, //Task ID - integer
-	"userId": 0, //User ID - integer
+	"id": "", //Task ID - string
+	"userId": "", //User ID - string
 	"name": "", //Name of the task - string
 	"createdOn": "", //Date when the task was created - date in ISO format
 	"done": false //Done flag for task - boolean
@@ -85,8 +85,8 @@ Returns the list of tasks for the current user based on the Logged user
 ```
 [
 	{  
-		"id": 0,
-		"userId": 0,
+		"id": "",
+		"userId": "",
 		"name": "",
 		"createdOn": "",
 		"done": false
@@ -117,20 +117,20 @@ Updates a task for the current user
 
 ```
 {
-	"id": 0,
+	"id": "",
 	"name": "", //optional
 	"done": false //optional
 }
 ```
 
-if neither ```"name"``` and ```"done"``` are provided the **Task** will not be updated
+if neither ```"name"``` or ```"done"``` are provided the **Task** will not be updated
 
 **Returns**
 
 The updated **Task** if found
 
 
-## REPORT
+## REPORT (TODO)
 The method listed below require authentication **please refer to Tasks for more information**
 ### GET - /report
 Returns a PDF file with the task list for download
