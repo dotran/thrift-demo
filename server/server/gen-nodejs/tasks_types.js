@@ -14,7 +14,7 @@ Task = module.exports.Task = function(args) {
   this.userId = null;
   this.name = '';
   this.createdOn = null;
-  this.done = false;
+  this.done = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;

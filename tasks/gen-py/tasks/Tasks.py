@@ -34,12 +34,13 @@ class Iface:
     """
     pass
 
-  def update(self, id, name, done):
+  def update(self, id, name, done, userId):
     """
     Parameters:
      - id
      - name
      - done
+     - userId
     """
     pass
 
@@ -115,22 +116,24 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "add failed: unknown result")
 
-  def update(self, id, name, done):
+  def update(self, id, name, done, userId):
     """
     Parameters:
      - id
      - name
      - done
+     - userId
     """
-    self.send_update(id, name, done)
+    self.send_update(id, name, done, userId)
     return self.recv_update()
 
-  def send_update(self, id, name, done):
+  def send_update(self, id, name, done, userId):
     self._oprot.writeMessageBegin('update', TMessageType.CALL, self._seqid)
     args = update_args()
     args.id = id
     args.name = name
     args.done = done
+    args.userId = userId
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -148,6 +151,8 @@ class Client(Iface):
     iprot.readMessageEnd()
     if result.success is not None:
       return result.success
+    if result.ouch is not None:
+      raise result.ouch
     raise TApplicationException(TApplicationException.MISSING_RESULT, "update failed: unknown result")
 
 
@@ -218,10 +223,13 @@ class Processor(Iface, TProcessor):
     iprot.readMessageEnd()
     result = update_result()
     try:
-      result.success = self._handler.update(args.id, args.name, args.done)
+      result.success = self._handler.update(args.id, args.name, args.done, args.userId)
       msg_type = TMessageType.REPLY
     except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
       raise
+    except BaseException as ouch:
+      msg_type = TMessageType.REPLY
+      result.ouch = ouch
     except Exception as ex:
       msg_type = TMessageType.EXCEPTION
       logging.exception(ex)
@@ -521,6 +529,7 @@ class update_args:
    - id
    - name
    - done
+   - userId
   """
 
   thrift_spec = (
@@ -528,12 +537,14 @@ class update_args:
     (1, TType.STRING, 'id', None, None, ), # 1
     (2, TType.STRING, 'name', None, None, ), # 2
     (3, TType.BOOL, 'done', None, None, ), # 3
+    (4, TType.STRING, 'userId', None, None, ), # 4
   )
 
-  def __init__(self, id=None, name=None, done=None,):
+  def __init__(self, id=None, name=None, done=None, userId=None,):
     self.id = id
     self.name = name
     self.done = done
+    self.userId = userId
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -559,6 +570,11 @@ class update_args:
           self.done = iprot.readBool()
         else:
           iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.userId = iprot.readString()
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -581,6 +597,10 @@ class update_args:
       oprot.writeFieldBegin('done', TType.BOOL, 3)
       oprot.writeBool(self.done)
       oprot.writeFieldEnd()
+    if self.userId is not None:
+      oprot.writeFieldBegin('userId', TType.STRING, 4)
+      oprot.writeString(self.userId)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -593,6 +613,7 @@ class update_args:
     value = (value * 31) ^ hash(self.id)
     value = (value * 31) ^ hash(self.name)
     value = (value * 31) ^ hash(self.done)
+    value = (value * 31) ^ hash(self.userId)
     return value
 
   def __repr__(self):
@@ -610,14 +631,17 @@ class update_result:
   """
   Attributes:
    - success
+   - ouch
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (Task, Task.thrift_spec), None, ), # 0
+    (1, TType.STRUCT, 'ouch', (BaseException, BaseException.thrift_spec), None, ), # 1
   )
 
-  def __init__(self, success=None,):
+  def __init__(self, success=None, ouch=None,):
     self.success = success
+    self.ouch = ouch
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -634,6 +658,12 @@ class update_result:
           self.success.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 1:
+        if ftype == TType.STRUCT:
+          self.ouch = BaseException()
+          self.ouch.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -648,6 +678,10 @@ class update_result:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
       oprot.writeFieldEnd()
+    if self.ouch is not None:
+      oprot.writeFieldBegin('ouch', TType.STRUCT, 1)
+      self.ouch.write(oprot)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -658,6 +692,7 @@ class update_result:
   def __hash__(self):
     value = 17
     value = (value * 31) ^ hash(self.success)
+    value = (value * 31) ^ hash(self.ouch)
     return value
 
   def __repr__(self):

@@ -261,13 +261,13 @@ Tasks_add_result.prototype.write = function(output) {
 };
 
 Tasks_update_args = function(args) {
-  this.id = null;
+  this.taskId = null;
   this.name = null;
   this.done = null;
   this.userId = null;
   if (args) {
-    if (args.id !== undefined && args.id !== null) {
-      this.id = args.id;
+    if (args.taskId !== undefined && args.taskId !== null) {
+      this.taskId = args.taskId;
     }
     if (args.name !== undefined && args.name !== null) {
       this.name = args.name;
@@ -296,7 +296,7 @@ Tasks_update_args.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.id = input.readString();
+        this.taskId = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -333,9 +333,9 @@ Tasks_update_args.prototype.read = function(input) {
 
 Tasks_update_args.prototype.write = function(output) {
   output.writeStructBegin('Tasks_update_args');
-  if (this.id !== null && this.id !== undefined) {
-    output.writeFieldBegin('id', Thrift.Type.STRING, 1);
-    output.writeString(this.id);
+  if (this.taskId !== null && this.taskId !== undefined) {
+    output.writeFieldBegin('taskId', Thrift.Type.STRING, 1);
+    output.writeString(this.taskId);
     output.writeFieldEnd();
   }
   if (this.name !== null && this.name !== undefined) {
@@ -360,9 +360,17 @@ Tasks_update_args.prototype.write = function(output) {
 
 Tasks_update_result = function(args) {
   this.success = null;
+  this.ouch = null;
+  if (args instanceof ttypes.BaseException) {
+    this.ouch = args;
+    return;
+  }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
       this.success = new ttypes.Task(args.success);
+    }
+    if (args.ouch !== undefined && args.ouch !== null) {
+      this.ouch = args.ouch;
     }
   }
 };
@@ -388,9 +396,14 @@ Tasks_update_result.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ouch = new ttypes.BaseException();
+        this.ouch.read(input);
+      } else {
         input.skip(ftype);
-        break;
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -405,6 +418,137 @@ Tasks_update_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
     this.success.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.ouch !== null && this.ouch !== undefined) {
+    output.writeFieldBegin('ouch', Thrift.Type.STRUCT, 1);
+    this.ouch.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Tasks_upsert_args = function(args) {
+  this.task = null;
+  if (args) {
+    if (args.task !== undefined && args.task !== null) {
+      this.task = new ttypes.Task(args.task);
+    }
+  }
+};
+Tasks_upsert_args.prototype = {};
+Tasks_upsert_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.task = new ttypes.Task();
+        this.task.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Tasks_upsert_args.prototype.write = function(output) {
+  output.writeStructBegin('Tasks_upsert_args');
+  if (this.task !== null && this.task !== undefined) {
+    output.writeFieldBegin('task', Thrift.Type.STRUCT, 1);
+    this.task.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Tasks_upsert_result = function(args) {
+  this.success = null;
+  this.ouch = null;
+  if (args instanceof ttypes.BaseException) {
+    this.ouch = args;
+    return;
+  }
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new ttypes.Task(args.success);
+    }
+    if (args.ouch !== undefined && args.ouch !== null) {
+      this.ouch = args.ouch;
+    }
+  }
+};
+Tasks_upsert_result.prototype = {};
+Tasks_upsert_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new ttypes.Task();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ouch = new ttypes.BaseException();
+        this.ouch.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Tasks_upsert_result.prototype.write = function(output) {
+  output.writeStructBegin('Tasks_upsert_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.ouch !== null && this.ouch !== undefined) {
+    output.writeFieldBegin('ouch', Thrift.Type.STRUCT, 1);
+    this.ouch.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -516,7 +660,7 @@ TasksClient.prototype.recv_add = function(input,mtype,rseqid) {
   }
   return callback('add failed: unknown result');
 };
-TasksClient.prototype.update = function(id, name, done, userId, callback) {
+TasksClient.prototype.update = function(taskId, name, done, userId, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
     var _defer = Q.defer();
@@ -527,19 +671,19 @@ TasksClient.prototype.update = function(id, name, done, userId, callback) {
         _defer.resolve(result);
       }
     };
-    this.send_update(id, name, done, userId);
+    this.send_update(taskId, name, done, userId);
     return _defer.promise;
   } else {
     this._reqs[this.seqid()] = callback;
-    this.send_update(id, name, done, userId);
+    this.send_update(taskId, name, done, userId);
   }
 };
 
-TasksClient.prototype.send_update = function(id, name, done, userId) {
+TasksClient.prototype.send_update = function(taskId, name, done, userId) {
   var output = new this.pClass(this.output);
   output.writeMessageBegin('update', Thrift.MessageType.CALL, this.seqid());
   var args = new Tasks_update_args();
-  args.id = id;
+  args.taskId = taskId;
   args.name = name;
   args.done = done;
   args.userId = userId;
@@ -561,10 +705,63 @@ TasksClient.prototype.recv_update = function(input,mtype,rseqid) {
   result.read(input);
   input.readMessageEnd();
 
+  if (null !== result.ouch) {
+    return callback(result.ouch);
+  }
   if (null !== result.success) {
     return callback(null, result.success);
   }
   return callback('update failed: unknown result');
+};
+TasksClient.prototype.upsert = function(task, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_upsert(task);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_upsert(task);
+  }
+};
+
+TasksClient.prototype.send_upsert = function(task) {
+  var output = new this.pClass(this.output);
+  output.writeMessageBegin('upsert', Thrift.MessageType.CALL, this.seqid());
+  var args = new Tasks_upsert_args();
+  args.task = task;
+  args.write(output);
+  output.writeMessageEnd();
+  return this.output.flush();
+};
+
+TasksClient.prototype.recv_upsert = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new Tasks_upsert_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.ouch) {
+    return callback(result.ouch);
+  }
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('upsert failed: unknown result');
 };
 TasksProcessor = exports.Processor = function(handler) {
   this._handler = handler
@@ -659,7 +856,7 @@ TasksProcessor.prototype.process_update = function(seqid, input, output) {
   args.read(input);
   input.readMessageEnd();
   if (this._handler.update.length === 4) {
-    Q.fcall(this._handler.update, args.id, args.name, args.done, args.userId)
+    Q.fcall(this._handler.update, args.taskId, args.name, args.done, args.userId)
       .then(function(result) {
         var result = new Tasks_update_result({success: result});
         output.writeMessageBegin("update", Thrift.MessageType.REPLY, seqid);
@@ -667,20 +864,65 @@ TasksProcessor.prototype.process_update = function(seqid, input, output) {
         output.writeMessageEnd();
         output.flush();
       }, function (err) {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("update", Thrift.MessageType.EXCEPTION, seqid);
+        if (err instanceof ttypes.BaseException) {
+          var result = new Tasks_update_result(err);
+          output.writeMessageBegin("update", Thrift.MessageType.REPLY, seqid);
+        } else {
+          var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+          output.writeMessageBegin("update", Thrift.MessageType.EXCEPTION, seqid);
+        }
         result.write(output);
         output.writeMessageEnd();
         output.flush();
       });
   } else {
-    this._handler.update(args.id, args.name, args.done, args.userId, function (err, result) {
-      if (err == null) {
+    this._handler.update(args.taskId, args.name, args.done, args.userId, function (err, result) {
+      if (err == null || err instanceof ttypes.BaseException) {
         var result = new Tasks_update_result((err != null ? err : {success: result}));
         output.writeMessageBegin("update", Thrift.MessageType.REPLY, seqid);
       } else {
         var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("update", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+}
+
+TasksProcessor.prototype.process_upsert = function(seqid, input, output) {
+  var args = new Tasks_upsert_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.upsert.length === 1) {
+    Q.fcall(this._handler.upsert, args.task)
+      .then(function(result) {
+        var result = new Tasks_upsert_result({success: result});
+        output.writeMessageBegin("upsert", Thrift.MessageType.REPLY, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      }, function (err) {
+        if (err instanceof ttypes.BaseException) {
+          var result = new Tasks_upsert_result(err);
+          output.writeMessageBegin("upsert", Thrift.MessageType.REPLY, seqid);
+        } else {
+          var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+          output.writeMessageBegin("upsert", Thrift.MessageType.EXCEPTION, seqid);
+        }
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      });
+  } else {
+    this._handler.upsert(args.task, function (err, result) {
+      if (err == null || err instanceof ttypes.BaseException) {
+        var result = new Tasks_upsert_result((err != null ? err : {success: result}));
+        output.writeMessageBegin("upsert", Thrift.MessageType.REPLY, seqid);
+      } else {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("upsert", Thrift.MessageType.EXCEPTION, seqid);
       }
       result.write(output);
       output.writeMessageEnd();

@@ -26,7 +26,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print('Functions:')
   print('   all(string userId)')
   print('  Task add(string userId, string name)')
-  print('  Task update(string id, string name, bool done)')
+  print('  Task update(string id, string name, bool done, string userId)')
   print('')
   sys.exit(0)
 
@@ -96,10 +96,10 @@ elif cmd == 'add':
   pp.pprint(client.add(args[0],args[1],))
 
 elif cmd == 'update':
-  if len(args) != 3:
-    print('update requires 3 args')
+  if len(args) != 4:
+    print('update requires 4 args')
     sys.exit(1)
-  pp.pprint(client.update(args[0],args[1],eval(args[2]),))
+  pp.pprint(client.update(args[0],args[1],eval(args[2]),args[3],))
 
 else:
   print('Unrecognized method %s' % cmd)
