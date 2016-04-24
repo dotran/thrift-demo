@@ -9,6 +9,8 @@ from db import TaskDB
 import logging
 logging.basicConfig()
 
+from config import Config
+
 class TaskHandler(object):
     def all(self, userId):
         print('getting all tasks for user: %s' % userId)
@@ -85,8 +87,8 @@ class TaskHandler(object):
         task.done = instance['done']
         return task
 
-host = '127.0.0.1'
-port = 6000
+host = Config.getTaskServiceConfig()['host']
+port = Config.getTaskServiceConfig()['port']
 
 print('Server is running on %s port %d' % (host, port))
 server = make_server(tasks.Tasks,

@@ -3,9 +3,11 @@ from bson.objectid import ObjectId
 
 import pymongo
 import datetime
+from config import Config
 
-baseUrl = 'mongodb://localhost:27017'
-database = 'tasks-db'
+mongoConfig = Config.getTaskDBConfig()
+baseUrl = 'mongodb://%s:%s' % (mongoConfig['host'], mongoConfig['port'])
+database = mongoConfig['db']
 
 db = MongoClient(baseUrl)
 client = db[database]

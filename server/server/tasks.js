@@ -1,13 +1,14 @@
 //Client factory
 var factory = require("thrift-client-factory");
 var validation = require('./utils/validation');
+var config = require('./config');
 
 // Required files
 var TasksService = require("./gen-nodejs/Tasks");
 var TaskTypes = require("./gen-nodejs/tasks_types");
 
-var hostname = "127.0.0.1"; // Arbitrary host
-var hostport = 6000;        // Arbitrary port
+var hostname = config.taskConfig().host; // Arbitrary host
+var hostport = config.taskConfig().port; // Arbitrary port
 
 function Task (userId, body) {
   this.userId = userId;

@@ -1,11 +1,11 @@
+var config = require('./config');
+
 //Basic configuration
-var baseUrl = "mongodb://localhost/";
-var dbName = "demo-tasks";
+var baseUrl = config.mongoUrl();
+var dbName = config.mongoConfig().db;
 
 //MongoDB Driver
 var mongoose = require('mongoose');
-
-var connectionStatus = false;
 
 mongoose.connect(baseUrl+dbName);
 
