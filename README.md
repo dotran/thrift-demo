@@ -18,6 +18,8 @@ To successfully run this demo please install the following dependencies:
   - [Thrift (0.9.3)][apache-thrift]
   - [MongoDB (3.2.4)][mongo-db]
   - [Node.js (4.3.1)][node-js]
+    - [Gulp][gulp] ``npm i -g gulp``
+    - [Bower][bower] ``npm i -g bower``
   - npm (2.14.12) (installed with Node.js)
   - [Python (2.7.10)][python-org]
 	- [pip][pip]
@@ -56,14 +58,16 @@ pip install -r requirements.txt
 ```
 
 Install Angular.js dependencies  
-In another terminal window
+In another terminal window, assuming you are in the base folder of the project
 
 ```
-cd ../client && npm install
+cd client && npm install && bower install
 ```
 
 ###Configuration
-Please refer to the **config.json** file to change the configuration of your services
+Please refer to the ``config.json`` file to change the configuration of your services
+
+If the webserver configuration is changed please also change the ``client/config.json`` file accordingly
 
 ###Run
 ####MongoDB:
@@ -91,7 +95,7 @@ python newserver.py
 This will run the python Thrift server using **thriftpy** library.
 
 ####Client App  
-For all the necessary processing and automated tasking [Gulp][gulp] is being used
+For all the necessary processing and automated tasks [Gulp][gulp] is being used.
 
 From the terminal navigate to the client folder
 
@@ -231,3 +235,4 @@ MacBook Pro (Retina, 13-inch, Late 2013)
 [thriftpy]: https://github.com/eleme/thriftpy
 [homebrew]: http://brew.sh/
 [gulp]: http://gulpjs.com
+[bower]: http://bower.io
