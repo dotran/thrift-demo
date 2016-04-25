@@ -33,7 +33,7 @@ brew install thrift
 ```
 
 ###Install
-After installing all the dependencies execute the following in a terminal application/emulator:
+After installing all the dependencies execute the following in a terminal application/emulator: (replace /path/to/demo with the actual folder the repo was cloned)
 
 ```
 cd /path/to/demo
@@ -41,7 +41,7 @@ cd /path/to/demo
 Install all node.js server dependencies
 
 ```
-cd /server && npm install
+cd server && npm install
 ```
 Create virtual environment for python with **$ENV** name and activate it
 
