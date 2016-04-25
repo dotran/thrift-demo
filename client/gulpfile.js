@@ -125,7 +125,9 @@ gulp.task('build-server', function() {
 });
 
 gulp.task('build-watch', function() {
-  gulp.watch(appFolder+'/**/*.js',['rebuild']);
+  gulp.watch(appFolder+'/**/*.js',['build-js']);
+  gulp.watch(appFolder+'/**/*.html',['buildinject']);
+  gulp.watch(appFolder+'/**/*.css',['build-css']);
     // gulp.watch('js/*.js', ['lint', 'scripts']);
     // gulp.watch('scss/*.scss', ['sass']);
     // gulp.watch('scss/*/*.scss', ['sass']);
@@ -182,9 +184,25 @@ gulp.task('build-js', function () {
     .pipe(gulp.dest(buildDestination+'/js/'));
 });
 
+//Concatenates js files and minimize directly
+gulp.task('build-css', function () {
+  return gulp.src(appFolder+'/**/*.css')
+    .pipe(concat('app.min.css'))
+    .pipe(uglifycss())
+    .pipe(gulp.dest(buildDestination+'/css/'));
+});
+
+//Copy media
+gulp.task('build-media', function () {
+  return gulp.src(appFolder+'/media/*')
+    .pipe(gulp.dest(buildDestination+'/media/'));
+});
+
 //Copies index.html to destination folder
 gulp.task('build-copy', function () {
-  return gulp.src(appFolder+'/index.html')
+  return gulp.src([appFolder+'/index.html', appFolder+'/**/*.html'])
+    // .pipe(gulp.dest(buildDestination))
+    // .pipe(gulp.src(appFolder+'/**/*.html'))
     .pipe(gulp.dest(buildDestination));
 });
 
@@ -192,7 +210,7 @@ gulp.task('build-copy', function () {
 gulp.task('buildinject',['build-copy'], function () {
   return gulp.src(buildDestination+'/index.html')
     .pipe(inject(gulp.src([buildDestination+'/vendor/*.js',buildDestination+'/vendor/*.css']), {name: 'bower', relative:true}))
-    .pipe(inject(gulp.src(buildDestination+'/js/*.js'),{relative:true}))
+    .pipe(inject(gulp.src([buildDestination+'/js/*.js',buildDestination+'/css/*.css']),{relative:true}))
     .pipe(gulp.dest(buildDestination));
 });
 
@@ -210,17 +228,17 @@ gulp.task('copy-build-final', function () {
 //Default task - Launch webserver
 gulp.task('default', function (done) {
   // runSequence('clean-dev','inject',['webserver','watch'], done);
-  runSequence(['vendor-build-js', 'vendor-build-css', 'build-js'], 'buildinject', 'build-server', 'build-watch',done);
+  runSequence('rebuild', 'build-server', 'build-watch',done);
 });
 
 //Rebuild a package version ready to deploy without removing the previous files
 gulp.task('rebuild', function (done) {
-  runSequence(['vendor-build-js', 'vendor-build-css', 'build-js'], 'buildinject', done);
+  runSequence(['vendor-build-js', 'vendor-build-css', 'build-js', 'build-css', 'build-media'], 'buildinject', done);
 })
 
 //Builds a package version ready to deploy
 gulp.task('build', function(done) {
-  runSequence('clean-build',['vendor-build-js', 'vendor-build-css', 'build-js'], 'buildinject', done);
+  runSequence('clean-build','rebuild', done);
 });
 
 //Builds and deploys inside the server/client folder
