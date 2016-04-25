@@ -21,10 +21,12 @@
     "jshint": "^2.9.1"
   },
   "devDependencies": {
+    "del": "^2.2.0",
     "event-stream": "^3.3.2",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-clean": "^0.3.2",
     "gulp-inject": "^4.0.0",
+    "gulp-ng-config": "^1.2.1",
     "gulp-server-livereload": "^1.7.4",
     "main-bower-files": "^2.11.1",
     "run-sequence": "^1.1.5",

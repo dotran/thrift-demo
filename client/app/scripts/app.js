@@ -1,3 +1,26 @@
+//Logged in
+function checkRestricted (UserService, $q, $location) {
+  var deferred = $q.defer();
+  if (UserService.getToken()) {
+      deferred.resolve();
+  } else {
+      deferred.reject();
+      $location.url('/');
+  }
+  return deferred.promise;
+}
+
+function checkedLoggedIn (UserService, $q, $location) {
+  var deferred = $q.defer();
+  if (!UserService.getToken()) {
+      deferred.resolve();
+  } else {
+      deferred.reject();
+      $location.url('/tasks');
+  }
+  return deferred.promise;
+}
+
 //Bootstrapping the app
 angular.module('TasksApp', ['ngMaterial','LocalStorageModule','ngRoute', 'ngMessages'])
 
@@ -55,26 +78,3 @@ angular.module('TasksApp', ['ngMaterial','LocalStorageModule','ngRoute', 'ngMess
   .backgroundPalette('blue-grey');
   // .dark();
 }]);
-
-//Logged in
-function checkRestricted (UserService, $q, $location) {
-  var deferred = $q.defer();
-  if (UserService.getToken()) {
-      deferred.resolve();
-  } else {
-      deferred.reject();
-      $location.url('/');
-  }
-  return deferred.promise;
-}
-
-function checkedLoggedIn (UserService, $q, $location) {
-  var deferred = $q.defer();
-  if (!UserService.getToken()) {
-      deferred.resolve();
-  } else {
-      deferred.reject();
-      $location.url('/tasks');
-  }
-  return deferred.promise;
-}

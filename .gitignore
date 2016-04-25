@@ -5,3 +5,5 @@ client/dev
 client/build
 client/bower_components
 client/node_modules
+server/client/*
+client/app/scripts/constants.js

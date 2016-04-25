@@ -14,6 +14,8 @@ var angularFilesort = require('gulp-angular-filesort');
 var server = require('gulp-server-livereload');
 var clean = require('gulp-clean');
 var runSequence = require('run-sequence');
+var gulpNgConfig = require('gulp-ng-config');
+var del = require('del');
 
 //Configuration
 var finalBuildDestination = '../server/client/'
@@ -21,71 +23,14 @@ var buildDestination = 'build';
 var devDestination = 'dev';
 var appFolder = 'app';
 
-// Lint Task
-// gulp.task('lint', function() {
-//     return gulp.src(appFolder+'/**/*.js')
-//         .pipe(jshint())
-//         .pipe(jshint.reporter('default'));
-// });
-
-// Compile Our Sass
-// gulp.task('sass', function() {
-//     return gulp.src(appFolder+'/**/*.scss')
-//         .pipe(sass())
-//         .pipe(gulp.dest(destination+'/css'));
-// });
-
-// Concatenate & Minify JS
-// gulp.task('scripts', function() {
-//     return gulp.src(appFolder+'/**/*.js')
-//         .pipe(concat('all.js'))
-//         .pipe(gulp.dest(destination))
-//         .pipe(rename('all.min.js'))
-//         .pipe(uglify())
-//         .pipe(gulp.dest(destination+'/js'));
-// });
-
 /******
  * DEV
 *******/
-
-// gulp.task('inject', function () {
-    //This is a inject for development
-    // 1. Inject bower dependencies
-    // return gulp.src(appFolder+'/index.html')
-    //     .pipe(inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower'}))
-    //     .pipe(inject(
-    //         gulp.src(appFolder+'/scripts/*.js') // gulp-angular-filesort depends on file contents, so don't use {read: false} here
-    //         .pipe(angularFilesort())
-    //     ))
-    //     .pipe(gulp.dest(devDestination));
-
-    // 2. Inject app dependencies
-
-
-
-    //2. Preprocess Sass
-
-
-    // gulp.src('./index.html')
-    //     .pipe(inject(gulp.src(bowerFiles(), {read: false}), {name: 'bower'}))
-    //     .pipe(inject(
-    //         gulp.src(appFolder+'/**/*.js') // gulp-angular-filesort depends on file contents, so don't use {read: false} here
-    //         .pipe(angularFilesort())
-    //     ))
-    //     .pipe(gulp.dest(destination));
-// });
 
 gulp.task('clean-dev', function () {
 	return gulp.src(devDestination, {read: false})
 		.pipe(clean());
 });
-
-//Copies index.html to destination folder
-// gulp.task('dev-copy', function () {
-//   return gulp.src(appFolder+'/index.html')
-//     .pipe(gulp.dest(devDestination));
-// });
 
 //Inject vendor
 gulp.task('inject', function () {
@@ -101,9 +46,6 @@ gulp.task('inject', function () {
 // Watch Files For Changes
 gulp.task('watch', function() {
   gulp.watch(appFolder+'/**/*.js',['inject']);
-    // gulp.watch('js/*.js', ['lint', 'scripts']);
-    // gulp.watch('scss/*.scss', ['sass']);
-    // gulp.watch('scss/*/*.scss', ['sass']);
 });
 
 gulp.task('webserver', function() {
@@ -124,13 +66,25 @@ gulp.task('build-server', function() {
     }));
 });
 
+gulp.task('delete-constant', function () {
+  return del([appFolder+'/scripts/constants.js'])
+});
+
+//Creating constants for dev environment
+gulp.task('dev-constants', ['delete-constant'], function () {
+  return gulp.src('config.json')
+    .pipe(gulpNgConfig('TasksApp', {
+      environment: 'local',
+      createModule: false
+    }))
+    .pipe(rename('constants.js'))
+    .pipe(gulp.dest(appFolder+'/scripts/',{force: true}))
+});
+
 gulp.task('build-watch', function() {
   gulp.watch(appFolder+'/**/*.js',['build-js']);
   gulp.watch(appFolder+'/**/*.html',['buildinject']);
   gulp.watch(appFolder+'/**/*.css',['build-css']);
-    // gulp.watch('js/*.js', ['lint', 'scripts']);
-    // gulp.watch('scss/*.scss', ['sass']);
-    // gulp.watch('scss/*/*.scss', ['sass']);
 });
 
 /******
@@ -140,6 +94,17 @@ gulp.task('build-watch', function() {
 gulp.task('clean-build', function () {
 	return gulp.src(buildDestination, {read: false})
 		.pipe(clean());
+});
+
+//Creating constants for dev environment
+gulp.task('deploy-constants',  ['delete-constant'], function () {
+  return gulp.src('config.json')
+    .pipe(gulpNgConfig('TasksApp', {
+      environment: 'production',
+      createModule: false
+    }))
+    .pipe(rename('constants.js'))
+    .pipe(gulp.dest(appFolder+'/scripts/',{force: true}))
 });
 
 //Concatenates bower plugins js files and minimize directly
@@ -220,15 +185,14 @@ gulp.task('clean-final-build', function () {
 });
 
 gulp.task('copy-build-final', function () {
-  return gulp.src(buildDestination+'/*',{base: buildDestination})
+  return gulp.src(buildDestination+'/**/*',{base: buildDestination})
     .pipe(gulp.dest(finalBuildDestination));
 });
 
 
 //Default task - Launch webserver
 gulp.task('default', function (done) {
-  // runSequence('clean-dev','inject',['webserver','watch'], done);
-  runSequence('rebuild', 'build-server', 'build-watch',done);
+  runSequence('dev-constants','rebuild', 'build-server', 'build-watch',done);
 });
 
 //Rebuild a package version ready to deploy without removing the previous files
@@ -238,7 +202,7 @@ gulp.task('rebuild', function (done) {
 
 //Builds a package version ready to deploy
 gulp.task('build', function(done) {
-  runSequence('clean-build','rebuild', done);
+  runSequence('clean-build','deploy-constants','rebuild', done);
 });
 
 //Builds and deploys inside the server/client folder
