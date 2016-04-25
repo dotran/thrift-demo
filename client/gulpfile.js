@@ -190,6 +190,8 @@ gulp.task('copy-build-final', function () {
 });
 
 
+/***** IMPORTANT TASKS *****/
+
 //Default task - Launch webserver
 gulp.task('default', function (done) {
   runSequence('dev-constants','rebuild', 'build-server', 'build-watch',done);

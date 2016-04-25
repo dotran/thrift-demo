@@ -27,32 +27,39 @@ To successfully run this demo please install the following dependencies:
 For a simpler installation process of [Thrift][apache-thrift] in a OSX environment the following [Homebrew][homebrew] formula can be used:
 
 ```
-$ brew install thrift
+brew install thrift
 ```
 
 ###Install
 After installing all the dependencies execute the following in a terminal application/emulator:
 
 ```
-$ cd /path/to/demo
+cd /path/to/demo
 ```
 Install all node.js server dependencies
 
 ```
-$ cd /server && npm install
+cd /server && npm install
 ```
 Create virtual environment for python with **$ENV** name and activate it
 
 ```
-$ cd ../tasks 
-$ virtualenv $ENV
-$ . $ENV/bin/activate
+cd ../tasks 
+virtualenv $ENV
+. $ENV/bin/activate
 ```
 
 Install Python dependencies
 
 ```
-$ pip install -r requirements.txt
+pip install -r requirements.txt
+```
+
+Install Angular.js dependencies  
+In another terminal window
+
+```
+cd ../client && npm install
 ```
 
 ###Configuration
@@ -65,23 +72,47 @@ Make sure you have an instance of MongoDB running and that it is accessible
 To start MongoDB using a **$MONGO_FOLDER** as Database file folder
 
 ```
-$ mongod --dbpath $MONGO_FOLDER
+mongod --dbpath $MONGO_FOLDER
 ```
 
 ####Webserver:
 From the base folder type the following:
 
 ```
-$ node server/.
+node server/.
 ```
 
 ####Tasks Service:
 Activate the virtual environment and from the base folder type the following:
 
 ```
-$ python newserver.py
+python newserver.py
 ```
 This will run the python Thrift server using **thriftpy** library.
+
+####Client App  
+For all the necessary processing and automated tasking [Gulp][gulp] is being used
+
+From the terminal navigate to the client folder
+
+```
+cd client
+```
+
+From the terminal type the following to **start a webserver for development**. A browser window/tab should open automatically
+
+```
+gulp
+```
+
+After updating the application use the following command to bundle and update the client code from the ```server/client``` folder
+
+```
+gulp deploy
+```
+
+**Note: After deploying you should be able to access the application using the same address that the webserver is running in browser**
+e.g. ``` http://localhost:3001/```
 
 ##Thrift files
 ###demo.thrift
@@ -98,17 +129,17 @@ From the base folder in the terminal application:
   1. Build the new files. This command will generate the classes and services for Node.js in a ``gen-nodejs`` folder
 
    ```
-   $ thrift -r --gen js:node demo.thrift
+   thrift -r --gen js:node demo.thrift
    ```
   2. Remove the current generated files from the server folder ```server/server/gen-nodejs/```
 
    ```
-   $ rm -r server/server/gen-nodejs
+   rm -r server/server/gen-nodejs
    ```
   3. Move the newly generated files to the ```server/server``` folder
    
    ```
-   $ mv gen-nodejs server/server
+   mv gen-nodejs server/server
    ```
  
 ####Tasks service
@@ -118,18 +149,25 @@ From the base folder in the terminal application:
   1. Build the new files. This command will generate the classes and services for Python in a ``gen-py`` folder
 
    ```
-   $ thrift -r --gen py tasks.thrift
+   thrift -r --gen py tasks.thrift
    ```
   2. Remove the current generated files from the server folder ```tasks/gen-py/```
 
    ```
-   $ rm -r tasks/gen-py
+   rm -r tasks/gen-py
    ```
   3. Move the newly generated files to the ```tasks``` folder
    
    ```
-   $ mv gen-py tasks
+   mv gen-py tasks
+
+
    ```
+
+##Client (client folder)
+* Angular.js client application
+* Use ```gulp``` to start the development server
+* Use ``gulp deploy`` to update the client app inside the ``server/client`` folder
 
 ##Webserver (server folder)
 * Node.js webserver using Express 4.x
@@ -143,14 +181,38 @@ From the base folder in the terminal application:
 * Manages changes to Tasks data
 
 ##TODO
-- [ ] Create web user interface
-- [ ] Publish Services using docker
+- [X] Create web user interface
+- [ ] Publish Services using docker and loadbalancing
 - [ ] Create unit tests for each service
 - [ ] Add Report microservice 
+- [ ] Add REST microservice
 
 
-####[LICENSE](LICENSE.MD)
+##License
+The MIT License (MIT)
 
+Copyright (c) 2013-2016 Fractal <contact@wearefractal.com>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+##Notes
 **This demo was built and tested using the following environment:**  
 MacBook Pro (Retina, 13-inch, Late 2013)  
 **Processor:** 2.4 GHz Intel Core i5  
@@ -168,3 +230,4 @@ MacBook Pro (Retina, 13-inch, Late 2013)
 [pymongo]: https://pypi.python.org/pypi/pymongo
 [thriftpy]: https://github.com/eleme/thriftpy
 [homebrew]: http://brew.sh/
+[gulp]: http://gulpjs.com
