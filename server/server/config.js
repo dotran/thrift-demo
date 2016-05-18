@@ -19,5 +19,8 @@ module.exports = {
   mongoUrl: function () {
     var mongo = this.mongoConfig();
     return 'mongodb://' + mongo.host + ':' + mongo.port + '/'
+  },
+  numberConfig: function () {
+    return configJson.numberservice;
   }
 }

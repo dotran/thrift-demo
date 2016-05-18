@@ -46,7 +46,7 @@ cd server && npm install
 Create virtual environment for python with **$ENV** name and activate it
 
 ```
-cd ../tasks 
+cd ../tasks
 virtualenv $ENV
 . $ENV/bin/activate
 ```
@@ -141,14 +141,14 @@ From the base folder in the terminal application:
    rm -r server/server/gen-nodejs
    ```
   3. Move the newly generated files to the ```server/server``` folder
-   
+
    ```
    mv gen-nodejs server/server
    ```
- 
+
 ####Tasks service
 As the tasks service will only deal with ``Tasks`` we can build only the necessary classes for it.
-From the base folder in the terminal application: 
+From the base folder in the terminal application:
 
   1. Build the new files. This command will generate the classes and services for Python in a ``gen-py`` folder
 
@@ -161,7 +161,7 @@ From the base folder in the terminal application:
    rm -r tasks/gen-py
    ```
   3. Move the newly generated files to the ```tasks``` folder
-   
+
    ```
    mv gen-py tasks
 
@@ -186,16 +186,14 @@ From the base folder in the terminal application:
 
 ##TODO
 - [X] Create web user interface
-- [ ] Publish Services using docker and loadbalancing
+- [ ] Publish Services using docker and load balancing
 - [ ] Create unit tests for each service
-- [ ] Add Report microservice 
-- [ ] Add REST microservice
+- [ ] Add Report microservice
+- [X] Add REST microservice (number)
 
 
 ##License
 The MIT License (MIT)
-
-Copyright (c) 2013-2016 Fractal <contact@wearefractal.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

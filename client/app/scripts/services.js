@@ -125,6 +125,33 @@ function TasksService ($http, apiUrl, UserService) {
   };
 }
 
+angular.module('TasksApp')
+.service('NumberService', ['$http', 'apiUrl', NumberService])
+
+/**
+ * Number Service for Task App.
+ * @param $http
+ * @param apiUrl
+ * @constructor
+ */
+
+function NumberService ($http, apiUrl, UserService) {
+  var self = this;
+  var numberUrl = apiUrl+'/number';
+
+  function get () {
+    return $http.get(numberUrl)
+      .then(function (response) {
+        return response.data;
+      }, throwError);
+  }
+
+
+  return {
+    get: get
+  };
+}
+
 /**
  * throwError Helper for Services.
  * @param httpError

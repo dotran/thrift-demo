@@ -1,0 +1,25 @@
+{
+  "instance_id": "number_service",
+  "heartbeat_path": "/log/nerve.txt",
+  "services": {
+    "number_service": {
+      "host": "$SERVICE_HOST",
+      "port": 8080,
+      "reporter_type": "zookeeper",
+      "zk_hosts": ["$ZK_HOSTS"],
+      "zk_path": "/nerve/services/number_service",
+      "check_interval": 1,
+      "checks": [
+        {
+          "type": "http",
+          "host": "localhost",
+          "port": 8080,
+          "uri": "/health",
+          "timeout": 0.2,
+          "rise": 1,
+          "fall": 1
+        }
+      ]
+    }
+  }
+}

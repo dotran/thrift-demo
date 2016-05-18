@@ -23,7 +23,15 @@ function checkedLoggedIn (UserService, $q, $location) {
 
 //Bootstrapping the app
 angular.module('TasksApp', ['ngMaterial','LocalStorageModule','ngRoute', 'ngMessages'])
-
+//Startup
+.run(['$interval', 'ToastDisplay', 'NumberService', function ($interval, ToastDisplay, NumberService) {
+  $interval(function () {
+    NumberService.get()
+      .then(function (data) {
+        ToastDisplay.showToast(data.number);
+      });
+  }, 1000);
+}])
 //Routes
 .config(['$routeProvider', function($routeProvider){
     $routeProvider
@@ -54,20 +62,6 @@ angular.module('TasksApp', ['ngMaterial','LocalStorageModule','ngRoute', 'ngMess
     )
     .otherwise({redirectTo:'/'});
 
-    /*
-
-
-    resolve: {
-      'check': function(UserService,$location) {
-          if (UserService.getUserToken()) {
-              return true;
-          }
-          $location.path('/');
-          return false;
-      }
-    }
-
-    */
 }])
 
 //Themes
