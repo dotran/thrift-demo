@@ -371,6 +371,278 @@ TestService_sendReceive_result.prototype.write = function(output) {
   return;
 };
 
+TestService_getOne_args = function(args) {
+};
+TestService_getOne_args.prototype = {};
+TestService_getOne_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TestService_getOne_args.prototype.write = function(output) {
+  output.writeStructBegin('TestService_getOne_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TestService_getOne_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new ttypes.Test(args.success);
+    }
+  }
+};
+TestService_getOne_result.prototype = {};
+TestService_getOne_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new ttypes.Test();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TestService_getOne_result.prototype.write = function(output) {
+  output.writeStructBegin('TestService_getOne_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TestService_sendOne_args = function(args) {
+  this.test = null;
+  if (args) {
+    if (args.test !== undefined && args.test !== null) {
+      this.test = new ttypes.Test(args.test);
+    }
+  }
+};
+TestService_sendOne_args.prototype = {};
+TestService_sendOne_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.test = new ttypes.Test();
+        this.test.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TestService_sendOne_args.prototype.write = function(output) {
+  output.writeStructBegin('TestService_sendOne_args');
+  if (this.test !== null && this.test !== undefined) {
+    output.writeFieldBegin('test', Thrift.Type.STRUCT, 1);
+    this.test.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TestService_sendOne_result = function(args) {
+};
+TestService_sendOne_result.prototype = {};
+TestService_sendOne_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TestService_sendOne_result.prototype.write = function(output) {
+  output.writeStructBegin('TestService_sendOne_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TestService_sendReceiveOne_args = function(args) {
+  this.test = null;
+  if (args) {
+    if (args.test !== undefined && args.test !== null) {
+      this.test = new ttypes.Test(args.test);
+    }
+  }
+};
+TestService_sendReceiveOne_args.prototype = {};
+TestService_sendReceiveOne_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.test = new ttypes.Test();
+        this.test.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TestService_sendReceiveOne_args.prototype.write = function(output) {
+  output.writeStructBegin('TestService_sendReceiveOne_args');
+  if (this.test !== null && this.test !== undefined) {
+    output.writeFieldBegin('test', Thrift.Type.STRUCT, 1);
+    this.test.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TestService_sendReceiveOne_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new ttypes.Test(args.success);
+    }
+  }
+};
+TestService_sendReceiveOne_result.prototype = {};
+TestService_sendReceiveOne_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new ttypes.Test();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TestService_sendReceiveOne_result.prototype.write = function(output) {
+  output.writeStructBegin('TestService_sendReceiveOne_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 TestServiceClient = exports.Client = function(output, pClass) {
     this.output = output;
     this.pClass = pClass;
@@ -517,6 +789,143 @@ TestServiceClient.prototype.recv_sendReceive = function(input,mtype,rseqid) {
   }
   return callback('sendReceive failed: unknown result');
 };
+TestServiceClient.prototype.getOne = function(callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_getOne();
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_getOne();
+  }
+};
+
+TestServiceClient.prototype.send_getOne = function() {
+  var output = new this.pClass(this.output);
+  output.writeMessageBegin('getOne', Thrift.MessageType.CALL, this.seqid());
+  var args = new TestService_getOne_args();
+  args.write(output);
+  output.writeMessageEnd();
+  return this.output.flush();
+};
+
+TestServiceClient.prototype.recv_getOne = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new TestService_getOne_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('getOne failed: unknown result');
+};
+TestServiceClient.prototype.sendOne = function(test, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_sendOne(test);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_sendOne(test);
+  }
+};
+
+TestServiceClient.prototype.send_sendOne = function(test) {
+  var output = new this.pClass(this.output);
+  output.writeMessageBegin('sendOne', Thrift.MessageType.CALL, this.seqid());
+  var args = new TestService_sendOne_args();
+  args.test = test;
+  args.write(output);
+  output.writeMessageEnd();
+  return this.output.flush();
+};
+
+TestServiceClient.prototype.recv_sendOne = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new TestService_sendOne_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  callback(null)
+};
+TestServiceClient.prototype.sendReceiveOne = function(test, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_sendReceiveOne(test);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_sendReceiveOne(test);
+  }
+};
+
+TestServiceClient.prototype.send_sendReceiveOne = function(test) {
+  var output = new this.pClass(this.output);
+  output.writeMessageBegin('sendReceiveOne', Thrift.MessageType.CALL, this.seqid());
+  var args = new TestService_sendReceiveOne_args();
+  args.test = test;
+  args.write(output);
+  output.writeMessageEnd();
+  return this.output.flush();
+};
+
+TestServiceClient.prototype.recv_sendReceiveOne = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new TestService_sendReceiveOne_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('sendReceiveOne failed: unknown result');
+};
 TestServiceProcessor = exports.Processor = function(handler) {
   this._handler = handler
 }
@@ -632,6 +1041,111 @@ TestServiceProcessor.prototype.process_sendReceive = function(seqid, input, outp
       } else {
         var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("sendReceive", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+}
+
+TestServiceProcessor.prototype.process_getOne = function(seqid, input, output) {
+  var args = new TestService_getOne_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.getOne.length === 0) {
+    Q.fcall(this._handler.getOne)
+      .then(function(result) {
+        var result = new TestService_getOne_result({success: result});
+        output.writeMessageBegin("getOne", Thrift.MessageType.REPLY, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      }, function (err) {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("getOne", Thrift.MessageType.EXCEPTION, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      });
+  } else {
+    this._handler.getOne(function (err, result) {
+      if (err == null) {
+        var result = new TestService_getOne_result((err != null ? err : {success: result}));
+        output.writeMessageBegin("getOne", Thrift.MessageType.REPLY, seqid);
+      } else {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("getOne", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+}
+
+TestServiceProcessor.prototype.process_sendOne = function(seqid, input, output) {
+  var args = new TestService_sendOne_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.sendOne.length === 1) {
+    Q.fcall(this._handler.sendOne, args.test)
+      .then(function(result) {
+        var result = new TestService_sendOne_result({success: result});
+        output.writeMessageBegin("sendOne", Thrift.MessageType.REPLY, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      }, function (err) {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("sendOne", Thrift.MessageType.EXCEPTION, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      });
+  } else {
+    this._handler.sendOne(args.test, function (err, result) {
+      if (err == null) {
+        var result = new TestService_sendOne_result((err != null ? err : {success: result}));
+        output.writeMessageBegin("sendOne", Thrift.MessageType.REPLY, seqid);
+      } else {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("sendOne", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+}
+
+TestServiceProcessor.prototype.process_sendReceiveOne = function(seqid, input, output) {
+  var args = new TestService_sendReceiveOne_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.sendReceiveOne.length === 1) {
+    Q.fcall(this._handler.sendReceiveOne, args.test)
+      .then(function(result) {
+        var result = new TestService_sendReceiveOne_result({success: result});
+        output.writeMessageBegin("sendReceiveOne", Thrift.MessageType.REPLY, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      }, function (err) {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("sendReceiveOne", Thrift.MessageType.EXCEPTION, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      });
+  } else {
+    this._handler.sendReceiveOne(args.test, function (err, result) {
+      if (err == null) {
+        var result = new TestService_sendReceiveOne_result((err != null ? err : {success: result}));
+        output.writeMessageBegin("sendReceiveOne", Thrift.MessageType.REPLY, seqid);
+      } else {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("sendReceiveOne", Thrift.MessageType.EXCEPTION, seqid);
       }
       result.write(output);
       output.writeMessageEnd();
