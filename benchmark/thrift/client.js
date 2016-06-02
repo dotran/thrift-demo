@@ -15,18 +15,15 @@ for (var i = 0; i < jsonParams.length; i++) {
 function TestClient (transport, protocol) {
   var connection, client, transport = transport, protocol = protocol;
 
-
   return {
     connect: function () {
       connection = thrift.createConnection("localhost", 9090, {
         transport : transport,
         protocol : protocol
       });
-
       connection.on('error', function(err) {
         assert(false, err);
       });
-
       client = thrift.createClient(TestService, connection)
     },
     test: function (callback) {

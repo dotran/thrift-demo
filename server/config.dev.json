@@ -1,0 +1,24 @@
+{
+  "webserver": {
+    "host": "localhost",
+    "port": 3001
+  },
+  "taskservice": {
+    "host": "127.0.0.1",
+    "port": 6001
+  },
+  "taskdb": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "db": "tasks-db"
+  },
+  "userdb": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "db": "demo-tasks"
+  },
+  "numberservice": {
+    "host": "127.0.0.1",
+    "port": 8080
+  }
+}

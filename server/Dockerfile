@@ -1,10 +1,12 @@
 FROM newsweaver/smartstack-nodejs
 
 ADD smartstack/nerve.conf.json /etc/
-ADD package.json /app/
-ADD server.js /app/
+ADD smartstack/synapse.conf.json /etc/
 
-WORKDIR /app/
+ADD . /app/
+RUN rm -rf /app/node_modules
+
+WORKDIR /app
 RUN npm install
 
 ADD start.sh /app/
