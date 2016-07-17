@@ -1,6 +1,6 @@
 {
   "instance_id": "number_service",
-  "heartbeat_path": "/log/nerve.txt",
+  "heartbeat_path": "/var/log/nerve.txt",
   "services": {
     "number_service": {
       "host": "$SERVICE_HOST",

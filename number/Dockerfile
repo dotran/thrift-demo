@@ -11,6 +11,8 @@ ADD start.sh /app/
 
 ENV NODE_ENV production
 
+RUN touch /var/log/nerve.txt
+
 RUN chmod +x /app/start.sh
 
 ENTRYPOINT ["/app/start.sh"]
