@@ -136,20 +136,6 @@ angular.module('TasksApp')
  */
 
 function NumberService ($http, apiUrl, UserService) {
-  var self = this;
-  var numberUrl = apiUrl+'/number';
-
-  function get () {
-    return $http.get(numberUrl)
-      .then(function (response) {
-        return response.data;
-      }, throwError);
-  }
-
-
-  return {
-    get: get
-  };
 }
 
 /**

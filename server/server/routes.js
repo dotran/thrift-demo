@@ -10,8 +10,4 @@ module.exports = function (App) {
   //TASKS
   var Tasks = require('./tasks');
   Tasks.addRoutes(App);
-
-  //NUMBER
-  var Numbers = require('./number')
-  Numbers.addRoutes(App);
 }

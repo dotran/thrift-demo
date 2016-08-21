@@ -25,14 +25,6 @@ function checkedLoggedIn (UserService, $q, $location) {
 angular.module('TasksApp', ['ngMaterial','LocalStorageModule','ngRoute', 'ngMessages'])
 //Startup
 .run(['$interval', 'ToastDisplay', 'NumberService', function ($interval, ToastDisplay, NumberService) {
-  $interval(function () {
-    console.log('Getting number??');
-    NumberService.get()
-      .then(function (data) {
-        console.log('Got %s', data);
-        ToastDisplay.showToast(data.number);
-      });
-  }, 1000);
 }])
 //Routes
 .config(['$routeProvider', function($routeProvider){
